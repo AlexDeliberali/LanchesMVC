@@ -1,4 +1,7 @@
-﻿namespace LanchesMVC;
+﻿using LanchesMVC.Context;
+using Microsoft.EntityFrameworkCore;
+
+namespace LanchesMVC;
 
 public class Startup
 {
@@ -12,6 +15,8 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         services.AddControllersWithViews();
     }
 
