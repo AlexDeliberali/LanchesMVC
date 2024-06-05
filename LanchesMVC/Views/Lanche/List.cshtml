@@ -1,12 +1,12 @@
-﻿@model IEnumerable<LanchesMVC.Models.Lanche>
+﻿@model LancheListViewModel
 
 <div>
-    <h2>Todos os lanches</h2>
+    <h2>@Model.CategoriaAtual</h2>
 </div>
 
 <div class="container">
     <div class="row">
-        @foreach (var lanche in Model)
+        @foreach (var lanche in Model.Lanches)
         {
             //Criando 3 colunas com o mesmo tamanho
             <div class="col-sm-4 col-md-4 col-lg-4">
