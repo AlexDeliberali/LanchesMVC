@@ -1,4 +1,6 @@
 ﻿using LanchesMVC.Context;
+using LanchesMVC.Repositories;
+using LanchesMVC.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMVC;
@@ -8,15 +10,18 @@ public class Startup
 
     public Startup(IConfiguration configuration)
     {
-        configuration = configuration;
+        Configuration = configuration;
     }
 
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContext<AppDbContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        //Registrando os serviços
+        services.AddTransient<ILancheRepository, LancheRepository>();
+        services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddControllersWithViews();
     }
 

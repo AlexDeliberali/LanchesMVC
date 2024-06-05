@@ -35,12 +35,22 @@ namespace LanchesMVC.Models
 
         [Required] //Definindo como coluna obrigatória (Será criada como NOT NULL)
         [Display(Name = "Preço do Lanche")] //Nome que será exibido
-        
+        [Column(TypeName = "Decimal(10,2)")]
+        [Range(1,99.99,ErrorMessage = "O preço deve estar entre 1,00 real e 99,99 reais!")]
         public decimal Preco { get; set; }
 
+        [Display(Name = "Caminho da imagem normal")]
+        [StringLength(200, ErrorMessage = "O {0} deve ter no máximo {1} caracteres!")]
         public string ImagemUrl { get; set; }
+
+        [Display(Name = "Caminho da imagem em miniatura")]
+        [StringLength(200, ErrorMessage = "O {0} deve ter no máximo {1} caracteres!")]
         public string ImagemThumbnailUrl { get; set; }
+
+        [Display(Name = "Preferido?")]
         public bool IsLanchePreferido { get; set; }
+
+        [Display(Name = "Estoque?")]
         public bool EmEstoque { get; set; }
 
         //Definindo a chave estrangeira
