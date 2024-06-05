@@ -13,7 +13,6 @@ namespace LanchesMVC.Controllers
 
         public IActionResult List()
         {
-            //Obtendo uma lista de lanches
             var lanches = _lancheRepository.Lanches;
             return View(lanches);
         }

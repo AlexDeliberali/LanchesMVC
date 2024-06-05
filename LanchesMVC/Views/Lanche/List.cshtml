@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<LanchesMVC.Models.Lanche>
 
-    <div>
-        <h2> Todos os lanches </h2>
-    </div>
+<div>
+    <h2>Todos os lanches</h2>
+</div>
 
-@foreach(var lanche in Model)
-{
-    <div>
-        <h4>@lanche.Nome</h4>
-        <p><img src="@lanche.ImagemUrl"/></p>
-        <h3>Preço: @lanche.Preco.ToString("c")</h3>
+<div class="container">
+    <div class="row">
+        @foreach (var lanche in Model)
+        {
+            //Criando 3 colunas com o mesmo tamanho
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <p><img src="@lanche.ImagemUrl" class="img-fluid" /></p>
+                <h3>Preço: @lanche.Preco.ToString("c")</h3>
+                <h4>@lanche.Nome</h4>
+                <p>@lanche.DescricaoCurta</p>
+            </div>
+        }
     </div>
-}
+</div>
