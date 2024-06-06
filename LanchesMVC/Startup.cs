@@ -22,7 +22,14 @@ public class Startup
         //Registrando os serviços
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         services.AddControllersWithViews();
+
+        //Adicionando os serviços para habilitar o uso do Session
+        services.AddMemoryCache();
+        services.AddSession();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,6 +47,10 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        //Ativando o uso da Sessiom
+        app.UseSession();
+
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints => { endpoints.MapControllerRoute(
