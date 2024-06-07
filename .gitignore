@@ -400,3 +400,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /LanchesMVC/Context/AppDbContext.cs
+/LanchesMVC/appsettings.json
