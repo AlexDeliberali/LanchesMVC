@@ -1,4 +1,5 @@
 ﻿using LanchesMVC.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMVC.Models
 {
@@ -84,6 +85,32 @@ namespace LanchesMVC.Models
             }
             _context.SaveChanges();
             return quantidadeLocal;
+        }
+
+        public List<CarrinhoCompraItem>GetCarrinhoCompraItems()
+        {
+            return CarrinhoCompraItems ?? (CarrinhoCompraItems = _context.CarrinhoCompraItens
+                                                                .Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
+                                                                .Include(s => s.lanche)
+                                                                .ToList());
+        }
+
+        public void LimparCarrinho()
+        {
+            var carrinhoItens = _context.CarrinhoCompraItens
+                                .Where(carrinho => carrinho.CarrinhoCompraId == CarrinhoCompraId);
+
+            _context.CarrinhoCompraItens.RemoveRange(carrinhoItens);
+            _context.SaveChanges();
+        }
+
+        public decimal GetCarrinhoCompraTotal()
+        {
+            var total = _context.CarrinhoCompraItens
+                        .Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
+                        .Select(c => c.lanche.Preco * c.Quantidade).Sum();
+
+            return total;
         }
     }
 }
