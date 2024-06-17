@@ -1,4 +1,5 @@
 ﻿using LanchesMVC.Context;
+using LanchesMVC.Models;
 using LanchesMVC.Repositories;
 using LanchesMVC.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ public class Startup
         //Registrando os serviços
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        //Cria uma instância a cada request
+        services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
