@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row">
-        @* <img src="~/images/Full-Cart-icon.png"/> *@
+        <img src="~/images/Full-Cart-icon.png" width="30" height="35" />
         <div>
             <h4>Seu carrinho de compras: </h4>
         </div>
@@ -16,28 +16,28 @@
                     <th></th>
                 </tr>
             </thead>
-        </table>
 
-        <tbody>
-            @foreach(var item in Model.CarrinhoCompra.CarrinhoCompraItems)
-            {
+            <tbody>
+                @foreach (var item in Model.CarrinhoCompra.CarrinhoCompraItems)
+                {
+                    <tr>
+                        <td class="text-center">@item.Quantidade</td>
+                        <td class="text-left">@item.Lanche.Nome</td>
+                        <td class="text-right">@item.Lanche.Preco.ToString("c")</td>
+                        <td class="text-right">@((item.Quantidade * item.Lanche.Preco).ToString("c"))</td>
+                        <a asp-controller="CarrinhoCompra" asp-action="RemoverItemDoCarrinhoCompra" asp-route-lancheId="@item.Lanche.LancheId">
+                            <img src="~/images/delete.png" width="20px" height="20px" />
+                        </a>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
                 <tr>
-                    <td class="text-center">@item.Quantidade</td>
-                    <td class="text-left">@item.Lanche.Nome</td>
-                    <td class="text-right">@item.Lanche.Preco.ToString("c")</td>
-                    <td class="text-right">@((item.Quantidade * item.Lanche.Preco).ToString("c"))</td>
-                    <a asp-controller="CarrinhoCompra" asp-action="RemoverItemDoCarrinhoCompra" asp-route-lancheId="@item.Lanche.LancheId">
-                        <img src="~/images/delete.png"/>
-                    </a>
+                    <td colspan="3" class="text-right">Total:</td>
+                    <td class="text-right">@Model.CarrinhoCompraTotal.ToString("c")</td>
                 </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="3" class="text-right">Total:</td>
-                <td class="text-right">@Model.CarrinhoCompraTotal.ToString("c")</td>
-            </tr>
-        </tfoot>
+            </tfoot>
+        </table>
 
         <div class="text-right">
             <div class="btn-group">
