@@ -29,7 +29,7 @@ namespace LanchesMVC.Controllers
             return View(carrinhoCompraVM);
         }
 
-        public RedirectToActionResult AdicionarItemDoCarrinhoCompra(int lancheId)
+        public IActionResult AdicionarItemDoCarrinhoCompra(int lancheId)
         {
             var lancheSelecionado = _lancheRepository.Lanches.FirstOrDefault(p => p.LancheId == lancheId);
 
@@ -40,7 +40,7 @@ namespace LanchesMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public RedirectToActionResult RemoverItemDoCarrinhoCompra(int lancheId)
+        public IActionResult RemoverItemDoCarrinhoCompra(int lancheId)
         {
             var lancheSelecionado = _lancheRepository.Lanches.FirstOrDefault(p => p.LancheId == lancheId);
 

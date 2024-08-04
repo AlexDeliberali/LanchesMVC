@@ -26,7 +26,7 @@ namespace LanchesMVC.Models
 
             //Obtem um existente ou gera um ID do carrinho
             // ?? = faz o mesmo que o NVL/Coalesce do banco, se um for nulo, pega o outro
-            string carrinhoId = session.GetString("carrinhoId") ?? Guid.NewGuid().ToString();
+            string carrinhoId = session.GetString("CarrinhoId") ?? Guid.NewGuid().ToString();
 
             //Atribuindo o ID do carrinho na Sessão aberta
             session.SetString("CarrinhoId", carrinhoId);
@@ -42,14 +42,14 @@ namespace LanchesMVC.Models
         {
             //SingleOrDefault = Retorna somente um único elemento que atenda aos requisitos informados
             var carrinhoCompraItem = _context.CarrinhoCompraItens.SingleOrDefault(
-                                        s => s.lanche.LancheId == lanche.LancheId && s.CarrinhoCompraId == CarrinhoCompraId);
+                                        s => s.Lanche.LancheId == lanche.LancheId && s.CarrinhoCompraId == CarrinhoCompraId);
 
             if (carrinhoCompraItem == null)
             {
                 carrinhoCompraItem = new CarrinhoCompraItem
                 {
                     CarrinhoCompraId = CarrinhoCompraId,
-                    lanche = lanche,
+                    Lanche = lanche,
                     Quantidade = 1
                 };
                 //Inserindo no banco de dados
@@ -67,7 +67,7 @@ namespace LanchesMVC.Models
         {
             //SingleOrDefault = Retorna somente um único elemento que atenda aos requisitos informados
             var carrinhoCompraItem = _context.CarrinhoCompraItens.SingleOrDefault(
-                                        s => s.lanche.LancheId == lanche.LancheId && s.CarrinhoCompraId == CarrinhoCompraId);
+                                        s => s.Lanche.LancheId == lanche.LancheId && s.CarrinhoCompraId == CarrinhoCompraId);
 
             var quantidadeLocal = 0;
 
@@ -91,7 +91,7 @@ namespace LanchesMVC.Models
         {
             return CarrinhoCompraItems ?? (CarrinhoCompraItems = _context.CarrinhoCompraItens
                                                                 .Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
-                                                                .Include(s => s.lanche)
+                                                                .Include(s => s.Lanche)
                                                                 .ToList());
         }
 
@@ -108,7 +108,7 @@ namespace LanchesMVC.Models
         {
             var total = _context.CarrinhoCompraItens
                         .Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
-                        .Select(c => c.lanche.Preco * c.Quantidade).Sum();
+                        .Select(c => c.Lanche.Preco * c.Quantidade).Sum();
 
             return total;
         }

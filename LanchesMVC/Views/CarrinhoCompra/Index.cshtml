@@ -23,10 +23,10 @@
             {
                 <tr>
                     <td class="text-center">@item.Quantidade</td>
-                    <td class="text-left">@item.lanche.Nome</td>
-                    <td class="text-right">@item.lanche.Preco.ToString("c")</td>
-                    <td class="text-right">@((item.Quantidade * item.lanche.Preco).ToString("c"))</td>
-                    <a asp-controller="CarrinhoCompra" asp-action="RemoverItemDoCarrinhoCompra" asp-route-lancheId="@item.lanche.LancheId">
+                    <td class="text-left">@item.Lanche.Nome</td>
+                    <td class="text-right">@item.Lanche.Preco.ToString("c")</td>
+                    <td class="text-right">@((item.Quantidade * item.Lanche.Preco).ToString("c"))</td>
+                    <a asp-controller="CarrinhoCompra" asp-action="RemoverItemDoCarrinhoCompra" asp-route-lancheId="@item.Lanche.LancheId">
                         <img src="~/images/delete.png"/>
                     </a>
                 </tr>
