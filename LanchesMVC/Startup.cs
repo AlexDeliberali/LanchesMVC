@@ -23,6 +23,7 @@ public class Startup
         //Registrando os serviços
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddTransient<IPedidoRepository, PedidoRepository>();
         //Cria uma instância a cada request
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 

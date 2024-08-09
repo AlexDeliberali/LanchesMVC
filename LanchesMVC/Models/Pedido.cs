@@ -12,9 +12,9 @@ namespace LanchesMVC.Models
         [StringLength(50)]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "Informe o sobremome do cliente!")]
+        [Required(ErrorMessage = "Informe o sobrenome do cliente!")]
         [StringLength(50)]
-        public string Sobremome { get; set; }
+        public string Sobrenome { get; set; }
 
         [Required(ErrorMessage = "Informe o endereço do cliente!")]
         [StringLength(100)]
@@ -29,6 +29,12 @@ namespace LanchesMVC.Models
         [StringLength(10, MinimumLength = 8)]
         [Display(Name = "CEP")]
         public string CEP { get; set; }
+
+        [StringLength(10)]
+        public string Estado { get; set; }
+
+        [StringLength(50)]
+        public string Cidade { get; set; }
 
         [Required(ErrorMessage = "Informe o telefone do cliente!")]
         [StringLength(25)]
