@@ -2,6 +2,7 @@
 using LanchesMVC.Models;
 using LanchesMVC.Repositories;
 using LanchesMVC.Repositories.Interfaces;
+using LanchesMVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,17 @@ public class Startup
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddTransient<IPedidoRepository, PedidoRepository>();
+        services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
+        //Incluindo a autorização através da politica vinculada ao grupo de usuários admin
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", policy =>
+            {
+                policy.RequireRole("Admin");
+            });
+        });
+
         //Cria uma instância a cada request
         services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
@@ -43,7 +55,7 @@ public class Startup
         services.AddSession();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedUserRoleInitial seedUserRoleInitial)
     {
         if (env.IsDevelopment())
         {
@@ -58,6 +70,10 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+        //Cria os perfis primeiro
+        seedUserRoleInitial.SeedRoles();
+        //Cria os usuário e os aloca nos perfis
+        seedUserRoleInitial.SeedUsers();
 
         //Ativando o uso da Session
         app.UseSession();
@@ -69,6 +85,12 @@ public class Startup
         //Criando um endpoint por categoria
         app.UseEndpoints(endpoints =>
         {
+            //Definindo o roteamento para utilizar a Area Admin
+            endpoints.MapControllerRoute(
+              name: "areas",
+              pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}"
+            );
+
             endpoints.MapControllerRoute(
                 name: "categoriaFiltro",
                 pattern: "Lanche/{action}/{categoria?}",

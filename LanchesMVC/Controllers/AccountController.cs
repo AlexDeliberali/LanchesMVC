@@ -61,17 +61,20 @@ namespace LanchesMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(LoginViewModel registerVM)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 var user = new IdentityUser { UserName = registerVM.UserName };
                 var result = await _userManager.CreateAsync(user, registerVM.Password);
 
                 if (result.Succeeded)
                 {
+                    //Adicionando todo usuário novo ao perfil member
+                    await _userManager.AddToRoleAsync(user, "Member");
                     return RedirectToAction("Login", "Account");
                 }
                 else
                 {
-                    this.ModelState.AddModelError("Regsitro", "Falha ao inserir o usuário.");
+                    this.ModelState.AddModelError("Registro", "Falha ao inserir o usuário.");
                 }
             }
             return View(registerVM);
@@ -85,6 +88,11 @@ namespace LanchesMVC.Controllers
             HttpContext.User = null;
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
