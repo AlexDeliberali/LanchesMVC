@@ -1,5 +1,6 @@
 ﻿using LanchesMVC.Models;
 using LanchesMVC.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesMVC.Controllers
@@ -15,6 +16,8 @@ namespace LanchesMVC.Controllers
             _carrinhoCompra = carrinhoCompra;
         }
 
+        //Restringindo o acesso somente para usuários autenticados (Logados)
+        [Authorize]
         //Método Get não é necessário a implementação
         [HttpGet]
         public IActionResult Checkout()
@@ -22,6 +25,8 @@ namespace LanchesMVC.Controllers
             return View();
         }
 
+        //Restringindo o acesso somente para usuários autenticados (Logados)
+        [Authorize]
         //Método POST é necessário a implementação
         [HttpPost]
         public IActionResult Checkout(Pedido pedido)

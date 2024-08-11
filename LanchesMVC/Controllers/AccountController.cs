@@ -61,7 +61,7 @@ namespace LanchesMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(LoginViewModel registerVM)
         {
-            if (!ModelState.IsValid) {
+            if (ModelState.IsValid) {
                 var user = new IdentityUser { UserName = registerVM.UserName };
                 var result = await _userManager.CreateAsync(user, registerVM.Password);
 
@@ -75,6 +75,16 @@ namespace LanchesMVC.Controllers
                 }
             }
             return View(registerVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            //Reforçando e limpando a sessão
+            HttpContext.Session.Clear();
+            HttpContext.User = null;
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
